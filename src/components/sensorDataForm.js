@@ -23,7 +23,7 @@ export const SensorDataForm = () => {
     }
 
     return(
-        <Form className="mt-3">
+        <Form >
             <Form.Group>
                 <Form.Label>Enter sensor values to test the dashboard. </Form.Label>
                 <Form.Control className="mb-2"
