@@ -11,11 +11,11 @@ function NavigationBar() {
     return (
         <Navbar bg="light" expand="sm" >
             <Container>
-                <Navbar.Brand href="#home">Wireless Power Transfer Project</Navbar.Brand>
+                <Navbar.Brand href="#dashboard">Wireless Power Transfer Project</Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse>
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="#dashboard">Dashboard</Nav.Link>
                         <NavDropdown title="Menu">
                             <NavDropdown.Item>Action</NavDropdown.Item>
                             <NavDropdown.Item>Another action</NavDropdown.Item>
