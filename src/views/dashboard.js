@@ -2,6 +2,7 @@ import React from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import { getDatabase, ref, onChildAdded } from 'firebase/database';
 import {DashboardCard} from "../components/dashboardCard";
+import convertEpochToHumanReadableTime from "../utils";
 
 /**
  * This function represents dashboard view that shows the most recent sensor values.
@@ -12,9 +13,11 @@ function Dashboard() {
     const [packetReceived, setPacketReceived] = React.useState(false);
 
     React.useEffect(() => {
-        const packetsRef = ref(getDatabase(), "packets");
-        onChildAdded(packetsRef, (data) => {
-            setRecentPacket(data.val());
+        const packetsRef = ref(getDatabase(), "packages_of_greater_importance");
+        onChildAdded(packetsRef, (child) => {
+            child.forEach((childData) => {
+                setRecentPacket(childData.val());
+            })
             setPacketReceived(true);
         });
 
@@ -32,16 +35,11 @@ function Dashboard() {
                 <h1>Dashboard</h1>
                 <Col md={12}>
                     <Row className="justify-content-center mt-3">
-                        <Col md={3}>{DashboardCard("Packet nr", recentPacket.packet_nr, "#")}</Col>
-                        <Col md={3}>{DashboardCard("Node nr", recentPacket.node_nr, "#")}</Col>
-                        <Col md={3}>{DashboardCard("Time", recentPacket.time, "")}</Col>
-                        <Col md={3}>{DashboardCard("dT", recentPacket.dt, "")}</Col>
-                    </Row>
-                    <Row className="justify-content-center mt-3">
-                        <Col md={3}>{DashboardCard("Temperature", recentPacket.temperature, " °F")}</Col>
-                        <Col md={3}>{DashboardCard("Humidity", recentPacket.humidity, " %")}</Col>
-                        <Col md={3}>{DashboardCard("Light", recentPacket.light, " lx")}</Col>
-                        <Col md={3}>{DashboardCard("RSSI", recentPacket.rssi, " mW")}</Col>
+                        <Col md={2}>{DashboardCard("Temperature", recentPacket.Temp, " °F")}</Col>
+                        <Col md={2}>{DashboardCard("Humidity", recentPacket.Humidity, " %")}</Col>
+                        <Col md={2}>{DashboardCard("Light", recentPacket.Light, " lx")}</Col>
+                        <Col md={6}>{DashboardCard("Time", convertEpochToHumanReadableTime(recentPacket.Time), "")}</Col>
+
                     </Row>
                 </Col>
             </Row>
