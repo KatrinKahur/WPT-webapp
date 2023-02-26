@@ -11,6 +11,7 @@ let humidityValues = [];
 let lightValues = [];
 let tempValues = [];
 let labels = [];
+let listenerAdded = false;
 /**
  * This function represents dashboard view that shows the most recent sensor values.
  * @returns {JSX.Element} Dashboard view
@@ -18,7 +19,6 @@ let labels = [];
 function Dashboard() {
     const [packetReceived, setPacketReceived] = React.useState(false);
     const [chartDataStatus, setChartDataStatus] = React.useState(false);
-
     const [humidityChartData, setHumidityChartData] = React.useState({
         labels: [],
         datasets: [{
@@ -54,24 +54,27 @@ function Dashboard() {
 
     React.useEffect(() => {
         const packetsRef = query(ref(getDatabase(), "packages_of_greater_importance"), limitToLast(40));
-        onChildAdded(packetsRef, (child) => {
-            child.forEach((childData) => {
-                labels.push(convertEpochToHumanReadableTime(childData.val().Time));
-                humidityValues.push(childData.val().Humidity);
-                lightValues.push(childData.val().Light);
-                tempValues.push(convertToCelsius(childData.val().Temp));
+        if(!listenerAdded){
+            onChildAdded(packetsRef, (child) => {
+                child.forEach((childData) => {
+                    labels.push(convertEpochToHumanReadableTime(childData.val().Time));
+                    humidityValues.push(childData.val().Humidity);
+                    lightValues.push(childData.val().Light);
+                    tempValues.push(convertToCelsius(childData.val().Temp));
 
-                while (humidityValues.length > 40)
-                    humidityValues.shift();
-                while (lightValues.length > 40)
-                    lightValues.shift();
-                while (tempValues.length > 40)
-                    tempValues.shift();
-                while (labels.length > 40)
-                    labels.shift();
-                setPacketReceived(true);
+                    while (humidityValues.length > 40)
+                        humidityValues.shift();
+                    while (lightValues.length > 40)
+                        lightValues.shift();
+                    while (tempValues.length > 40)
+                        tempValues.shift();
+                    while (labels.length > 40)
+                        labels.shift();
+                    setPacketReceived(true);
+                })
             })
-        })
+        }
+        listenerAdded = true;
     },[]);
 
     React.useEffect(() => {
