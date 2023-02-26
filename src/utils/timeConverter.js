@@ -5,7 +5,7 @@
  */
 function convertEpochToHumanReadableTime(epoch) {
     try {
-        const timestamp = parseInt(epoch);
+        const timestamp = parseInt(epoch) + 3600000;
         if (isNaN(timestamp) || timestamp < 0 || timestamp > 8640000000000000) {
             return "";
         }
