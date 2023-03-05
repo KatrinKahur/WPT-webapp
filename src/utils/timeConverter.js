@@ -10,7 +10,7 @@ function convertEpochToHumanReadableTime(epoch) {
             return "";
         }
         const date = new Date(timestamp).toISOString();
-        return date.substring(0, 10) + " " + date.substring(11, 19);
+        return date.substring(0, 10) + " " + date.substring(11, 19) + ":" + date.substring(20, 23);
     } catch (error) {
         console.log(error);
     }

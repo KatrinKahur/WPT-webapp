@@ -9,7 +9,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
  */
 function NavigationBar() {
     return (
-        <Navbar bg="light" expand="sm" >
+        <Navbar bg="light" expand="sm" sticky="top" >
             <Container>
                 <Navbar.Brand href="#dashboard">Wireless Power Transfer Project</Navbar.Brand>
                 <Navbar.Toggle />
